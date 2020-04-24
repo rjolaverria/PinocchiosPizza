@@ -1,0 +1,54 @@
+{% extends "orders/layout.html"%}{% block body %}
+
+<!-- Menu -->
+<h1 class="display-4 text-center bg-success text-white">
+  Menu
+</h1>
+<table class="table">
+  {% for cat in menu_cats%}
+  <thead class="bg-danger">
+    <tr>
+      <th scope="col">
+        <!-- Category -->
+        <h4 class="text-white">
+          {{cat.category}}s
+        </h4>
+        {% if cat.category == 'Sub'%}<small class="text-white">
+          (Add extra Mushrooms, Onions, Green Pepper and Extra Cheese for $0.50
+          ea.)</small
+        >{% endif %}
+      </th>
+      {% if cat.category != "Salad" and cat.category != "Pasta" %}
+      <th scope="col">Small</th>
+      <th scope="col">Large</th>
+      {% else %}
+      <th colspan="2" scope="col">Price</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in menu %}{% if item.category == cat.category %}
+    <tr>
+      <th scope="row">{{item.description}}</th>
+      <td>${{item.price}}</td>
+      {% if item.large_price is not None%}
+      <td>${{item.large_price}}</td>
+      {% endif %}
+    </tr>
+    {% endif %} {% endfor %}
+  </tbody>
+  {% endfor %}
+  <thead class="bg-danger text-center">
+    <tr>
+      <th colspan="3" scope="col"><h4 class="text-white">Toppings</h4></th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    {% for item in toppings %}
+    <tr>
+      <th colspan="3" scope="row">{{item.description}}</th>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} {% block title %} Menu {% endblock %}

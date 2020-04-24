@@ -1,0 +1,44 @@
+{% extends "orders/layout.html"%} {% load static %} {% block body %}
+<h1 class="display-3 text-center text-success">Order Now</h1>
+{% if request.user.is_authenticated %}
+<div class="container bg-light p-4 text-left">
+  <!-- Orders -->
+  <div class="row text-center justify-content-center">
+    {% for cat in menu_cats %}
+
+    <a
+      class="text-decoration-none"
+      href="{% url 'order_category' cat.category %}"
+    >
+      <div class="card m-1" style="width: 18rem;">
+        <img
+          src="{% static 'orders/images' %}/{{cat.category|cut:' '}}.jpg"
+          class="card-img-top img-fluid"
+          alt="{{cat.category}}"
+          style="width: 18rem; height: 10rem;"
+        />
+        <div class="card-body">
+          <h2 class="text-danger">
+            {{cat.category}}s
+          </h2>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Sign in or Register links -->
+  {% else %}
+  <div class="text-center">
+    <p class="lead mt-2 mb-4">
+      Please Sign in or Register to place an order.
+    </p>
+    <a class="btn btn-success btn-lg" href="{% url 'signin' %}" role="button"
+      >Sign In</a
+    >
+    <a class="btn btn-danger btn-lg" href="{% url 'register' %}" role="button"
+      >Register</a
+    >
+  </div>
+  {% endif %} {% endblock %} {% block title %} Order {% endblock %}
+</div>

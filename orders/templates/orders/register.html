@@ -1,0 +1,55 @@
+{% extends "orders/layout.html"%}{% block body %}
+<h1 class="display-3 text-center text-danger">Register</h1>
+
+<!-- Alert -->
+{% for field in form %} {% for error in field.errors %}
+<div class="alert alert-danger col-6 mx-auto text-center" role="alert">
+  {{error}}
+</div>
+{% endfor %} {% endfor %}
+
+<div class="container col-6 bg-success p-4 text-white text-left">
+  <!-- Register Form -->
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="inputUser">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="id_username"
+        name="username"
+      />
+      {% if form.username.help_text %}
+      <small class="text-light">{{ form.username.help_text }}</small>
+      {% endif %}
+    </div>
+    <div class="form-group">
+      <label for="inputPassword">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="id_password1"
+        name="password1"
+      />
+      <small class="text-light">{{ form.password1.help_text|safe }}</small>
+    </div>
+    <div class="form-group">
+      <label for="inputPassword2">Verify Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="id_password2"
+        name="password2"
+      />
+      <small class="text-light">{{ form.password2.help_text }}</small>
+    </div>
+    <button type="submit" class="btn btn-danger">Register</button>
+  </form>
+  <p class="mt-4 text-center">
+    Have an account?
+    <a class="text-danger" href="{% url 'signin' %}">Sign In</a>.
+  </p>
+</div>
+
+{% endblock %} {% block title %} Register {% endblock %}

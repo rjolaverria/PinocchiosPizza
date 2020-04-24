@@ -1,0 +1,50 @@
+{% extends "orders/layout.html"%}
+
+<!-- Title -->
+{% block title %} Orders Info {% endblock %}
+
+<!-- Load Static Files-->
+{% load static %} {% load l10n %}
+
+<!--Body-->
+{% block body %}
+<h1 class="display-3 text-success">My Orders</h1>
+
+<div class="mt-4">
+  {% for order in orders %} {% if order.checked_out %}
+  <div class="card mt-2">
+    <div class="card-header bg-danger text-white row">
+      <div class="col-4">
+        <span class="font-weight-bold">Order#</span> {{order.id}}
+      </div>
+      <div class="col-4">
+        <span class="font-weight-bold">Total:</span> ${{order.total}}
+      </div>
+      <div class="col-4">
+        <span class="font-weight-bold">Order Date:</span>
+        {{order.check_out_date|localize}}
+      </div>
+    </div>
+    <div class="text-center bg-light pt-1">
+      {% if order.completed %}
+      <span class="text-success font-weight-bold">Order Completed!</span>
+      {% else %}
+      <span class="text-danger font-weight-bold"
+        >Order still processing...</span
+      >
+      {% endif %}
+    </div>
+    <div class="card-body">
+      {% for item in items %} {% if item.order == order %}
+      <h6 class="card-title font-weight-bold">
+        -{{item.item}} <span class="text-danger">${{item.price}}</span>
+      </h6>
+      {% if item.extras %}
+      <p><span class="font-weight-bold">With:</span> {{item.extras}}</p>
+      {% endif %} {% endif %} {% endfor %}
+    </div>
+  </div>
+  {% endif %} {% endfor %}
+</div>
+
+{% endblock %}

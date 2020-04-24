@@ -1,0 +1,90 @@
+{% extends "orders/layout.html"%}
+
+<!-- Title -->
+{% block title %} Cart {% endblock %}
+
+<!-- Load Static Files-->
+{% load static %}
+
+<!--Body-->
+{% block body %}
+<h1 class="display-3 text-danger">Cart</h1>
+<div class="row mt-4">
+  {% if order_items %}
+  <!-- Order Items-->
+  <div class="col-8 overflow-auto" style="max-height: 69vh;">
+    {% for item in order_items %}
+    <div class="mb-3" style="max-width: 540px;">
+      <div class="row no-gutters">
+        <div class="col-md-4 my-1" style="height: 125px;">
+          <img
+            src="{% static 'orders/images' %}/{{item.item.category|cut:' '}}.jpg"
+            class="card-img"
+            alt="{{item.item}} image"
+            style="height: 100%;"
+          />
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h4 class="card-title">
+              {% if item.item.category in "Sicilian Pizza" %}
+              <!--If Pizza is plain-->
+              {% if not item.extras%} Cheese {% endif %} {{item.item.category}}
+              <!-- If NOT pizza-->
+              {% else %} {{item.item}} {% endif %}
+            </h4>
+            {% if item.extras %}
+            <div class="card-text ml-1">
+              <span class="font-weight-bold">Add:</span> {{item.extras}}
+            </div>
+            {% endif %}
+            <div class="card-text row ml-1">
+              <span class="font-weight-bold">Price:</span>
+              <span class="text-danger">${{item.price}}</span>
+              <a
+                href="{% url 'remove' item.id %}"
+                class="ml-auto btn btn-danger btn-sm"
+                >Remove</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    {% endfor %}
+  </div>
+  <div class="col-4">
+    <!-- Order Info/Actions-->
+    <div class="card bg-light" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="card-title text-danger">
+          <span class="font-weight-bold text-dark">Total:</span>
+          ${{order.total}}
+        </h3>
+        <p class="card-text mb-1">
+          <span class="font-weight-bold">Order#</span> {{order.id}}
+        </p>
+        <p class="card-text">
+          <span class="font-weight-bold">Item amount:</span>
+          {{order.item_count}}
+        </p>
+        <div class="text-center">
+          <a href="{% url 'order' %}" class="btn btn-warning btn-block"
+            >Add more items</a
+          >
+          <a href="{% url 'checkout' %}" class="btn btn-success btn-block"
+            >Checkout</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <p class="lead">
+    Cart is empty. Please
+    <a href="{% url 'order' %}" class="text-danger">add</a> items to cart...
+  </p>
+  {% endif %}
+</div>
+{% endblock %}

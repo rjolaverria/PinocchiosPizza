@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>Pinocchio's Pizza | {% block title %}{% endblock %}</title>
+    <script
+      src="https://kit.fontawesome.com/aeccdba331.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body style="margin-top: 4rem;">
+    <nav class="navbar fixed-top navbar-dark bg-danger">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <h4 class="text-white font-weight-bold">
+          <span class="text-success">Pinocchio's</span> Pizza & Subs
+        </h4>
+      </a>
+
+      <!-- Display Name and Logout -->
+      <span class="text-dark">
+        {% if request.user.is_authenticated %}
+        <i class="far fa-user text-white"></i> Hello
+        <span class="mr-4" id="userName">{{request.user}}.</span>
+        <a class="btn btn btn-danger mr-2 mb-1" href="{% url 'cart' %}">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge badge-light cart-count">{{order.item_count}}</span>
+        </a>
+        <a class="btn btn btn-danger mr-2 mb-1" href="{% url 'orders_info' %}"
+          ><i class="fas fa-box"></i> My Orders</a
+        >
+        <a class="btn btn btn-danger mr-2 mb-1" href="{% url 'logout' %}">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </a>
+        {% else %}
+        <a class="text-white mr-2" href="{% url 'order' %}"
+          ><i class="fas fa-sign-in-alt"></i> Place Order</a
+        >
+        {% endif %}
+      </span>
+    </nav>
+    <main class="container p-4">
+      {% block body %}{% endblock %}
+    </main>
+  </body>
+</html>
